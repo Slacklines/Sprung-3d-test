@@ -8,12 +8,19 @@ public class PlayerBounce : NetworkBehaviour
 {
 
     public float power = 3f;
-    public float recoil = 20f;
-    public int bullets = 3;
+    private PlayerAim playerScript;
     public Rigidbody rb;
+
+    void Start()
+    {
+        rb=GetComponentInParent<Rigidbody>();
+        playerScript=GetComponentInParent<PlayerAim>();
+    }
+
     void OnTriggerStay(Collider other)
     {
-        if (!IsOwner) return;
         rb.AddForce(transform.up*power, ForceMode.Impulse);
+        playerScript.reload();
     }
+
 }

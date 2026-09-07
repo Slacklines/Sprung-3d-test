@@ -5,6 +5,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting;
 
 public class PlayerAim : NetworkBehaviour
 {
@@ -99,10 +100,18 @@ public class PlayerAim : NetworkBehaviour
     {
         Vector3 end = origin+direction*100f;
 
-        RaycastHit[] hits = Physics.RaycastAll(origin, direction, 100f);
+        RaycastHit[] hits = Physics.RaycastAll(origin, direction, 100f, ~0, QueryTriggerInteraction.Collide);
+
+        Debug.Log(hits.Length);
+
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        Debug.Log(hits.Length);
 
         foreach (RaycastHit hit in hits)
         {
+            Debug.Log(hit.collider);
+  
             NetworkObject netObj = hit.collider.GetComponentInParent<NetworkObject>();
 
             if(netObj == NetworkObject) continue;

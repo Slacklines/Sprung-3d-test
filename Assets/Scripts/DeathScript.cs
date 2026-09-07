@@ -19,6 +19,10 @@ public class DeathScript : NetworkBehaviour
 
     void Update()
     {
+        if (isDead.Value)
+        {
+            transform.root.position = new Vector3 (100,100,100);
+        }
         if (isDead.Value && Input.GetKeyDown(KeyCode.R))
         {
             respawn();

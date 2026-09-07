@@ -5,7 +5,9 @@ using UnityEngine;
 public class DeathScript : NetworkBehaviour
 {
 
-    public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false);
+    public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false,
+    NetworkVariableReadPermission.Everyone,
+    NetworkVariableWritePermission.Owner);
     public GameObject PlayerModelGroup;
     public CanvasGroup deathScreen;
     public override void OnNetworkSpawn()

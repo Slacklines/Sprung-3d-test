@@ -7,7 +7,7 @@ public class DeathScript : NetworkBehaviour
 
     public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false,
     NetworkVariableReadPermission.Everyone,
-    NetworkVariableWritePermission.Owner);
+    NetworkVariableWritePermission.Server);
     public GameObject PlayerModelGroup;
     public CanvasGroup deathScreen;
     public override void OnNetworkSpawn()
@@ -27,7 +27,7 @@ public class DeathScript : NetworkBehaviour
         }
         if (isDead.Value && Input.GetKeyDown(KeyCode.R))
         {
-            respawn();
+            RespawnRequestRpc();
         }
     }
 
@@ -47,16 +47,15 @@ public class DeathScript : NetworkBehaviour
         {
             deathScreen.alpha = 0;
             PlayerModelGroup.SetActive(true);
+            transform.position = Vector3.zero;
+            GetComponentInParent<Rigidbody>().linearVelocity = Vector3.zero;
         }
     }
 
-    public void respawn()
+    [Rpc(SendTo.Server)]
+    public void RespawnRequestRpc()
     {
         isDead.Value = false;
-
-        transform.position = Vector3.zero;
-
-        GetComponentInParent<Rigidbody>().linearVelocity = Vector3.zero;
     }
 
 }

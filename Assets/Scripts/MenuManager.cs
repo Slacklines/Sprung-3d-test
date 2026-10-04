@@ -10,7 +10,8 @@ public class MenuManager : MonoBehaviour
     public void HostGame()
     {
         NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.SceneManager.LoadScene("Map1", LoadSceneMode.Single);
+
+        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
     }
 
     public void JoinLAN()
